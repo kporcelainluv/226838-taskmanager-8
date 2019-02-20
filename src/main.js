@@ -1,20 +1,21 @@
 let filters = [
-  { name: "ALL", amount: 15, checked: true },
-  { name: "OVERDUE", amount: 0, checked: false },
-  { name: "TODAY", amount: 0, checked: false },
-  { name: "FAVORITES", amount: 7, checked: false },
-  { name: "REPEATING", amount: 2, checked: false },
-  { name: "TAGS", amount: 6, checked: false },
-  { name: "ARCHIVE", amount: 115, checked: false }
+  { name: "ALL", amount: 15, checked: true, disabled: false },
+  { name: "OVERDUE", amount: 0, checked: false, disabled: true },
+  { name: "TODAY", amount: 0, checked: false, disabled: true },
+  { name: "FAVORITES", amount: 7, checked: false, disabled: false },
+  { name: "REPEATING", amount: 2, checked: false, disabled: false },
+  { name: "TAGS", amount: 6, checked: false, disabled: false },
+  { name: "ARCHIVE", amount: 115, checked: false, disabled: false }
 ];
 
-const createInput = ({ checked, name }) => {
+const createInput = ({ disabled, checked, name }) => {
   const input = document.createElement("input");
   input.className = "filter__input visually-hidden";
   input.id = `filter__${name.toLowerCase()}`;
   input.name = "filter";
   input.type = "radio";
   input.checked = checked;
+  input.disabled = disabled;
   return input;
 };
 
