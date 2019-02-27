@@ -55,7 +55,7 @@ const cardsFilling = [
   }
 ];
 
-let createCars = ({ name, hashtag, text, date, time, img }) => {
+const displayCard = ({ name, hashtag, text, date, time, img }) => {
   const template = document
     .querySelector(`.card_board_card`)
     .content.querySelector(`.card`)
@@ -82,4 +82,4 @@ let createCars = ({ name, hashtag, text, date, time, img }) => {
   boardContainer.appendChild(template);
 };
 
-cardsFilling.map(elm => createCars(elm));
+export { cardsFilling, displayCard };
