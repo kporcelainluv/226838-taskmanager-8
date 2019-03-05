@@ -181,8 +181,19 @@ const displayCard = ({ name, hashtag, text, date, time, img }) => {
   boardContainer.appendChild(template);
 };
 
-cardsFilling.map(elm => displayCard(elm));
 
+
+const getDate = (start, end) => {
+  return new Date(
+    start.getTime() + Math.random() * (end.getTime() - start.getTime())
+  );
+};
+
+console.log(getDate(new Date(2012, 0, 1), new Date()));
+const Data = {
+  title: ["Изучить теорию", "Сделать домашку", "Пройти интенсив на соточку"],
+  dueDate: 11
+};
 
 
 /***/ }),
@@ -191,7 +202,7 @@ cardsFilling.map(elm => displayCard(elm));
 /*!***********************!*\
   !*** ./src/filter.js ***!
   \***********************/
-/*! exports provided: createFiltersSection, filters, removeAllChildren, generateRandomNumber, arrayOfFilters */
+/*! exports provided: createFiltersSection, filters, removeAllChildren, generateRandomNumber */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -200,7 +211,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "filters", function() { return filters; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeAllChildren", function() { return removeAllChildren; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "generateRandomNumber", function() { return generateRandomNumber; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "arrayOfFilters", function() { return arrayOfFilters; });
 let filters = [
   { name: `ALL`, amount: 15, checked: true, disabled: false },
   { name: `OVERDUE`, amount: 0, checked: false, disabled: true },
@@ -261,10 +271,6 @@ function generateRandomNumber(min = 0, max = 6) {
   return Math.floor(Math.random() * (max - min) + min);
 }
 
-const arrayOfFilters = Array.from(
-  document.querySelectorAll(`.main__filter label`)
-);
-
 
 
 
@@ -283,23 +289,28 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _filter_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./filter.js */ "./src/filter.js");
 
 
-Object(_filter_js__WEBPACK_IMPORTED_MODULE_1__["createFiltersSection"])(_filter_js__WEBPACK_IMPORTED_MODULE_1__["filters"]);
-_card_js__WEBPACK_IMPORTED_MODULE_0__["cardsFilling"].map(elm => Object(_card_js__WEBPACK_IMPORTED_MODULE_0__["displayCard"])(elm));
 
-// arrayOfFilters.forEach(filt => {
-//   filt.addEventListener(`click`, () => {
-//     const filterID = filt.htmlFor;
-//     if (document.querySelector(`#${filterID}`).disabled === false) {
-//       const randomAmountOfCards = generateRandomNumber(1, 20);
-//       const cardsContainer = document.querySelector(`.board__tasks`);
-//       removeAllChildren(cardsContainer);
-//       for (let i = 0; i <= randomAmountOfCards; i++) {
-//         const randomIndex = generateRandomNumber();
-//         displayCard(cardsFilling[randomIndex]);
-//       }
-//     }
-//   });
-// });
+Object(_filter_js__WEBPACK_IMPORTED_MODULE_1__["createFiltersSection"])(_filter_js__WEBPACK_IMPORTED_MODULE_1__["filters"]);
+
+_card_js__WEBPACK_IMPORTED_MODULE_0__["cardsFilling"].map(elm => Object(_card_js__WEBPACK_IMPORTED_MODULE_0__["displayCard"])(elm));
+const arrayOfFilters = Array.from(
+  document.querySelectorAll(`.main__filter label`)
+);
+
+arrayOfFilters.forEach(filt => {
+  filt.addEventListener(`click`, () => {
+    console.log(`here`);
+    const filterID = filt.htmlFor;
+    if (document.querySelector(`#${filterID}`).disabled === false) {
+      const randomAmountOfCards = Object(_filter_js__WEBPACK_IMPORTED_MODULE_1__["generateRandomNumber"])(1, 20);
+      const cardsContainer = document.querySelector(`.board__tasks`);
+      Object(_filter_js__WEBPACK_IMPORTED_MODULE_1__["removeAllChildren"])(cardsContainer);
+      for (let i = 0; i <= randomAmountOfCards; i++) {
+        Object(_card_js__WEBPACK_IMPORTED_MODULE_0__["displayCard"])(_card_js__WEBPACK_IMPORTED_MODULE_0__["cardsFilling"][Object(_filter_js__WEBPACK_IMPORTED_MODULE_1__["generateRandomNumber"])()]);
+      }
+    }
+  });
+});
 
 
 /***/ })

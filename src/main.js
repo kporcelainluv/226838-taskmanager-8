@@ -9,14 +9,12 @@ import {
 createFiltersSection(filters);
 
 cardsFilling.map(elm => displayCard(elm));
-
 const arrayOfFilters = Array.from(
   document.querySelectorAll(`.main__filter label`)
 );
 
 arrayOfFilters.forEach(filt => {
   filt.addEventListener(`click`, () => {
-    console.log("here");
     const filterID = filt.htmlFor;
     if (document.querySelector(`#${filterID}`).disabled === false) {
       const randomAmountOfCards = generateRandomNumber(1, 20);
