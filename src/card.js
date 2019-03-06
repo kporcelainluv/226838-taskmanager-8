@@ -38,7 +38,7 @@ const cardsFilling = [
       Su: false
     },
     isFavorite: true,
-    isDone: false
+    isDone: true
   },
   {
     title: ["Изучить теорию", "Сделать домашку", "Пройти интенсив на соточку"],
@@ -53,7 +53,7 @@ const cardsFilling = [
       Th: false,
       Fr: true,
       Sa: false,
-      Su: false
+      Su: true
     },
     isFavorite: false,
     isDone: false
@@ -92,7 +92,7 @@ const cardsFilling = [
       Su: false
     },
     isFavorite: false,
-    isDone: false
+    isDone: true
   },
   {
     title: ["Изучить теорию", "Сделать домашку", "Пройти интенсив на соточку"],
@@ -132,8 +132,11 @@ const displayCard = ({
     .querySelector(`.card_board_card`)
     .content.querySelector(`.card`)
     .cloneNode(true);
+  // add color
   template.className = `card card--${color[getRandomNum(color)]}`;
+  // add description
   template.querySelector(`.card__text`).value = title[getRandomNum(title)];
+  // add hashtags
   if (hashtags) {
     const createHashtags = hashText => {
       const hashtagsList = template.querySelector(`.card__hashtag-list`);
@@ -156,11 +159,18 @@ const displayCard = ({
       span.appendChild(button);
       hashtagsList.appendChild(span);
     };
-    Array.from(hashtags).map(elm => createHashtags(elm));
+    const arrayOfCurrentHashes = [];
+    hashtags = Array.from(hashtags);
+    for (let i = 0; i <= getRandomNum([0, 0, 0]); i++) {
+      arrayOfCurrentHashes.push(hashtags[getRandomNum(hashtags)]);
+    }
+    arrayOfCurrentHashes.map(elm => createHashtags(elm));
   }
+  // add image
   if (picture) {
     template.querySelector(`.card__img`).src = picture;
   }
+  // add due date
   if (dueDate) {
     let month = dueDate.getUTCMonth();
     if (month === 0) {
@@ -179,10 +189,11 @@ const displayCard = ({
       `.card__time`
     ).value = `${dueDate.getHours()}:${dueDate.getMinutes()}`;
   }
+  // check if tast is repeating
   if (repeatingDays) {
     template.className += ` card--repeat`;
   }
-
+  // add to template
   const boardContainer = document.querySelector(`.board__tasks`);
   boardContainer.appendChild(template);
 };
