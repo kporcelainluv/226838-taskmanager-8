@@ -1,4 +1,4 @@
-import { cardsFilling, displayCard } from "./card.js";
+import { cardsFilling, Task, TaskEdit } from "./card.js";
 import {
   createFiltersSection,
   filters,
@@ -8,7 +8,7 @@ import {
 
 createFiltersSection(filters);
 
-cardsFilling.map(elm => displayCard(elm));
+// const mytask1 = new Task();
 
 const arrayOfFilters = Array.from(
   document.querySelectorAll(`.main__filter label`)
