@@ -1,4 +1,6 @@
-import { cardsFilling, Task, TaskEdit } from "./card.js";
+import { cardsFilling } from "./data.js";
+import { Task } from "./task.js";
+import { TaskEdit } from "./taskEdit.js";
 import {
   createFiltersSection,
   filters,
@@ -9,6 +11,12 @@ import {
 createFiltersSection(filters);
 
 // const mytask1 = new Task();
+const EditNewCard = new TaskEdit(cardsFilling[0]);
+EditNewCard.render();
+const newCard = new Task(cardsFilling[0]);
+newCard.render();
+const newCard2 = new Task(cardsFilling[1]);
+newCard2.render();
 
 const arrayOfFilters = Array.from(
   document.querySelectorAll(`.main__filter label`)
@@ -16,7 +24,6 @@ const arrayOfFilters = Array.from(
 
 arrayOfFilters.forEach(filt => {
   filt.addEventListener(`click`, () => {
-    console.log("here");
     const filterID = filt.htmlFor;
     if (document.querySelector(`#${filterID}`).disabled === false) {
       const randomAmountOfCards = generateRandomNumber(1, 20);
