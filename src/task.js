@@ -16,8 +16,6 @@ class Task {
   }
   _onEditButtonClick(event) {
     event.preventDefault();
-    console.log("onEditButtonCls", { event });
-    console.log(typeof this._onEdit);
     if (typeof this._onEdit === `function`) {
       this._onEdit();
     }
@@ -25,7 +23,6 @@ class Task {
 
   set onEdit(fn) {
     this._onEdit = fn;
-    console.log("onEdit", { fn }, this._onEdit);
   }
 
   get element() {
@@ -63,17 +60,15 @@ class Task {
     boardContainer.appendChild(this._element);
 
     const editButton = this._element.querySelector(`.card__btn--edit`);
-    editButton.addEventListener("click", this._onEditButtonClick);
+    editButton.addEventListener("click", this._onEditButtonClick.bind(this));
     console.log("editButton", { editButton });
   }
 
   unrender() {
-    this.removeEventListeners();
+    const editButton = this._element.querySelector(`.card__btn--edit`);
+    editButton.removeEventListener("click", this._onEditButtonClick);
     this._element.remove();
     this._element = null;
-    this._element
-      .querySelector(`.card__btn--edit`)
-      .removeEventListener(`click`, this._onEditButtonClick);
   }
 }
 

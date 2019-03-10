@@ -14,13 +14,18 @@ createFiltersSection(filters);
 
 const editableCard = new TaskEdit(cardsFilling[0]);
 editableCard.render();
-const newCard = new Task(cardsFilling[0]);
-const onEdit = () => {
-  console.log("hello");
-};
 
-newCard.onEdit = onEdit;
+/* start */
+const newCard = new Task(cardsFilling[0]);
+newCard.onEdit = () => {
+  const newCardElement = newCard.element;
+  // newCard.unrender();
+  const newEditableCard = new TaskEdit(cardsFilling[0], newCardElement);
+  newEditableCard.render();
+};
 newCard.render();
+
+/* end */
 
 const newCard2 = new Task(cardsFilling[1]);
 newCard2.render();

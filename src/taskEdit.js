@@ -1,5 +1,5 @@
 class TaskEdit {
-  constructor(data) {
+  constructor(data, elementToReplace) {
     this._cardName = data.cardName;
     this._title = data.title;
     this._color = data.color;
@@ -13,6 +13,7 @@ class TaskEdit {
       isEdit: false
     };
     this._onSubmit = null;
+    this._elementToReplace = elementToReplace;
   }
   set onSubmit(f) {
     return (this._onSubmit = f);
@@ -50,6 +51,13 @@ class TaskEdit {
       this._element = null;
     }
     this._element = this.template;
+    if (this._elementToReplace) {
+      this._elementToReplace.parentNode.replaceChild(
+        this._element,
+        _elementToReplace
+      );
+      return;
+    }
     boardContainer.appendChild(this._element);
   }
   unrender() {}
