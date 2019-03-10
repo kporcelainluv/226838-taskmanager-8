@@ -14,9 +14,24 @@ class Task {
     };
     this._onEdit = null;
   }
-  set _onEdit(f) {
-    return (this._onEdit = f);
+  _onEditButtonClick(event) {
+    event.preventDefault();
+    console.log("onEditButtonCls", { event });
+    console.log(typeof this._onEdit);
+    if (typeof this._onEdit === `function`) {
+      this._onEdit();
+    }
   }
+
+  set onEdit(fn) {
+    this._onEdit = fn;
+    console.log("onEdit", { fn }, this._onEdit);
+  }
+
+  get element() {
+    return this._element;
+  }
+
   get template() {
     const template = document
       .querySelector(`.card_board_card`)
@@ -46,9 +61,20 @@ class Task {
     const boardContainer = document.querySelector(`.board__tasks`);
     this._element = this.template;
     boardContainer.appendChild(this._element);
+
+    const editButton = this._element.querySelector(`.card__btn--edit`);
+    editButton.addEventListener("click", this._onEditButtonClick);
+    console.log("editButton", { editButton });
   }
 
-  unrender() {}
+  unrender() {
+    this.removeEventListeners();
+    this._element.remove();
+    this._element = null;
+    this._element
+      .querySelector(`.card__btn--edit`)
+      .removeEventListener(`click`, this._onEditButtonClick);
+  }
 }
 
 export { Task };

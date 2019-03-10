@@ -11,10 +11,17 @@ import {
 createFiltersSection(filters);
 
 // const mytask1 = new Task();
-const EditNewCard = new TaskEdit(cardsFilling[0]);
-EditNewCard.render();
+
+const editableCard = new TaskEdit(cardsFilling[0]);
+editableCard.render();
 const newCard = new Task(cardsFilling[0]);
+const onEdit = () => {
+  console.log("hello");
+};
+
+newCard.onEdit = onEdit;
 newCard.render();
+
 const newCard2 = new Task(cardsFilling[1]);
 newCard2.render();
 

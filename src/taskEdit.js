@@ -14,7 +14,7 @@ class TaskEdit {
     };
     this._onSubmit = null;
   }
-  set _onSubmit(f) {
+  set onSubmit(f) {
     return (this._onSubmit = f);
   }
   get template() {
