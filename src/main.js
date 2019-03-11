@@ -10,26 +10,28 @@ import {
 
 createFiltersSection(filters);
 
-// start
-const parent = document.querySelector(".board__tasks");
-cardsFilling.map(elm => {
-  let taskComponent = new Task(elm);
-  let editTaskComponent = new TaskEdit(elm);
-  taskComponent.render();
+const parent = document.querySelector(`.board__tasks`);
 
-  taskComponent.onEdit = () => {
-    editTaskComponent.render();
-    parent.replaceChild(editTaskComponent.element, taskComponent.element);
-    taskComponent.unrender();
-  };
-  //may be wrong
-  editTaskComponent.onSubmit = () => {
+const fillCOntainerWithCards = () => {
+  cardsFilling.map(elm => {
+    let taskComponent = new Task(elm);
+    let editTaskComponent = new TaskEdit(elm);
     taskComponent.render();
-    parent.replaceChild(taskComponent.element, editTaskComponent.element);
-    editTaskComponent.unrender();
-  };
-});
 
+    taskComponent.onEdit = () => {
+      editTaskComponent.render();
+      parent.replaceChild(editTaskComponent.element, taskComponent.element);
+      taskComponent.unrender();
+    };
+
+    editTaskComponent.onSubmit = () => {
+      taskComponent.render();
+      parent.replaceChild(taskComponent.element, editTaskComponent.element);
+      editTaskComponent.unrender();
+    };
+  });
+};
+fillCOntainerWithCards();
 const arrayOfFilters = Array.from(
   document.querySelectorAll(`.main__filter label`)
 );
@@ -41,9 +43,7 @@ arrayOfFilters.forEach(filt => {
       const randomAmountOfCards = generateRandomNumber(1, 20);
       const cardsContainer = document.querySelector(`.board__tasks`);
       removeAllChildren(cardsContainer);
-      for (let i = 0; i <= randomAmountOfCards; i++) {
-        displayCard(cardsFilling[generateRandomNumber()]);
-      }
+      fillCOntainerWithCards();
     }
   });
 });

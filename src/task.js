@@ -51,7 +51,7 @@ class Task {
         .querySelector(`.card__settings`)
         .removeChild(template.querySelector(`.card__img-wrap`));
     }
-    const container = document.createElement("div");
+    const container = document.createElement(`div`);
     container.appendChild(template);
 
     return container;
@@ -64,13 +64,13 @@ class Task {
 
     this._element
       .querySelector(`.card__btn--edit`)
-      .addEventListener("click", this._onEditButtonClick.bind(this));
+      .addEventListener(`click`, this._onEditButtonClick.bind(this));
   }
 
   unrender() {
     this._element
       .querySelector(`.card__btn--edit`)
-      .addEventListener("click", this._onEditButtonClick.bind(this));
+      .addEventListener(`click`, this._onEditButtonClick.bind(this));
     this._element = null;
   }
 }

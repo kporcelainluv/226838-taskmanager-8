@@ -36,17 +36,7 @@ class TaskEdit {
     template.className = `card card--edit ${this._cardName}`;
     template.querySelector(`.card__text`).value = this._title;
 
-    // if (!this._date && !this._time) {
-    //   template
-    //     .querySelector(`.card__details`)
-    //     .removeChild(template.querySelector(`.card__dates`));
-    // }
-    // if (!this._img) {
-    //   template
-    //     .querySelector(`.card__settings`)
-    //     .removeChild(template.querySelector(`.card__img-wrap`));
-    // }
-    const container = document.createElement("div");
+    const container = document.createElement(`div`);
     container.appendChild(template);
 
     return container;
@@ -57,13 +47,13 @@ class TaskEdit {
     boardContainer.appendChild(this._element);
 
     this._element
-      .querySelector(`.card__save`)
-      .addEventListener("submit", this._onSubmitButtonClick.bind(this));
+      .querySelector(`.card__form`)
+      .addEventListener(`submit`, this._onSubmitButtonClick.bind(this));
   }
   unrender() {
     this._element
-      .querySelector(`.card__save`)
-      .removeEventListener("submit", this._onSubmitButtonClick.bind(this));
+      .querySelector(`.card__form`)
+      .removeEventListener(`submit`, this._onSubmitButtonClick.bind(this));
     this._element = null;
   }
 }
