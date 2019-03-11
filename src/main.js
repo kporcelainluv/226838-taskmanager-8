@@ -9,35 +9,26 @@ import {
 } from "./filter.js";
 
 createFiltersSection(filters);
-const parent = document.querySelector(".board__tasks");
+
 // start
+const parent = document.querySelector(".board__tasks");
+cardsFilling.map(elm => {
+  let taskComponent = new Task(elm);
+  let editTaskComponent = new TaskEdit(elm);
+  taskComponent.render();
 
-const taskComponent = new Task(cardsFilling[0]);
-const editTaskComponent = new TaskEdit(cardsFilling[0]);
-taskComponent.render();
-
-taskComponent.onEdit = () => {
-  editTaskComponent.render();
-  parent.replaceChild(editTaskComponent.element, taskComponent.element);
-  taskComponent.unrender();
-};
-
-taskComponent.onSubmit = () => {
-  editTaskComponent.render();
-  parent.replaceChild(editTaskComponent.element, taskComponent2.element);
-  taskComponent2.unrender();
-};
-
-// end
-
-// const taskComponent2 = new TaskEdit(cardsFilling[1]);
-// taskComponent2.onSubmit = () => {
-//   const editTaskComponent = new Task(cardsFilling[1]);
-//   editTaskComponent.render();
-//   parent.replaceChild(editTaskComponent.element, taskComponent2.element);
-//   taskComponent2.unrender();
-// };
-// taskComponent2.render();
+  taskComponent.onEdit = () => {
+    editTaskComponent.render();
+    parent.replaceChild(editTaskComponent.element, taskComponent.element);
+    taskComponent.unrender();
+  };
+  //may be wrong
+  editTaskComponent.onSubmit = () => {
+    taskComponent.render();
+    parent.replaceChild(taskComponent.element, editTaskComponent.element);
+    editTaskComponent.unrender();
+  };
+});
 
 const arrayOfFilters = Array.from(
   document.querySelectorAll(`.main__filter label`)
