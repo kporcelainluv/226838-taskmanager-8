@@ -16,8 +16,6 @@ class Task {
   }
   _onEditButtonClick(event) {
     event.preventDefault();
-    console.log("onEditButtonCls", { event });
-    console.log(typeof this._onEdit);
     if (typeof this._onEdit === `function`) {
       this._onEdit();
     }
@@ -25,7 +23,6 @@ class Task {
 
   set onEdit(fn) {
     this._onEdit = fn;
-    console.log("onEdit", { fn }, this._onEdit);
   }
 
   get element() {
@@ -54,7 +51,10 @@ class Task {
         .querySelector(`.card__settings`)
         .removeChild(template.querySelector(`.card__img-wrap`));
     }
-    return template;
+    const container = document.createElement("div");
+    container.appendChild(template);
+
+    return container;
   }
 
   render() {
@@ -62,18 +62,16 @@ class Task {
     this._element = this.template;
     boardContainer.appendChild(this._element);
 
-    const editButton = this._element.querySelector(`.card__btn--edit`);
-    editButton.addEventListener("click", this._onEditButtonClick);
-    console.log("editButton", { editButton });
+    this._element
+      .querySelector(`.card__btn--edit`)
+      .addEventListener("click", this._onEditButtonClick.bind(this));
   }
 
   unrender() {
-    this.removeEventListeners();
-    this._element.remove();
-    this._element = null;
     this._element
       .querySelector(`.card__btn--edit`)
-      .removeEventListener(`click`, this._onEditButtonClick);
+      .addEventListener("click", this._onEditButtonClick.bind(this));
+    this._element = null;
   }
 }
 

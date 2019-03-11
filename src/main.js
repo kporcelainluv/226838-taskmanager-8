@@ -9,21 +9,35 @@ import {
 } from "./filter.js";
 
 createFiltersSection(filters);
+const parent = document.querySelector(".board__tasks");
+// start
 
-// const mytask1 = new Task();
+const taskComponent = new Task(cardsFilling[0]);
+const editTaskComponent = new TaskEdit(cardsFilling[0]);
+taskComponent.render();
 
-const editableCard = new TaskEdit(cardsFilling[0]);
-editableCard.render();
-const newCard = new Task(cardsFilling[0]);
-const onEdit = () => {
-  console.log("hello");
+taskComponent.onEdit = () => {
+  editTaskComponent.render();
+  parent.replaceChild(editTaskComponent.element, taskComponent.element);
+  taskComponent.unrender();
 };
 
-newCard.onEdit = onEdit;
-newCard.render();
+taskComponent.onSubmit = () => {
+  editTaskComponent.render();
+  parent.replaceChild(editTaskComponent.element, taskComponent2.element);
+  taskComponent2.unrender();
+};
 
-const newCard2 = new Task(cardsFilling[1]);
-newCard2.render();
+// end
+
+// const taskComponent2 = new TaskEdit(cardsFilling[1]);
+// taskComponent2.onSubmit = () => {
+//   const editTaskComponent = new Task(cardsFilling[1]);
+//   editTaskComponent.render();
+//   parent.replaceChild(editTaskComponent.element, taskComponent2.element);
+//   taskComponent2.unrender();
+// };
+// taskComponent2.render();
 
 const arrayOfFilters = Array.from(
   document.querySelectorAll(`.main__filter label`)

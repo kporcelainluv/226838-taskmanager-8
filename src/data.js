@@ -12,7 +12,7 @@ const cardsFilling = [
     cardName: `card--pink card--repeat`,
     color: `pink`,
     title: `It is example of repeating task. It marks by wave.`,
-    hashtag: true,
+    hashtag: false,
     date: false,
     time: false,
     img: false

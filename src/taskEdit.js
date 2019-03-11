@@ -14,22 +14,28 @@ class TaskEdit {
     };
     this._onSubmit = null;
   }
-  set onSubmit(f) {
-    return (this._onSubmit = f);
+  _onSubmitButtonClick(event) {
+    event.preventDefault();
+    if (typeof this._onSubmit === `function`) {
+      this._onSubmit();
+    }
   }
+  get element() {
+    return this._element;
+  }
+  set onSubmit(f) {
+    this._onSubmit = f;
+  }
+
   get template() {
     const template = document
       .querySelector(`.card-on-edit`)
       .content.querySelector(`.card--edit`)
       .cloneNode(true);
 
-    // template.className = `card ${this._cardName}`;
-    // template.querySelector(`.card__text`).value = this._title;
-    // if (!this._hashtag) {
-    //   template
-    //     .querySelector(`.card__details`)
-    //     .removeChild(template.querySelector(`.card__hashtag`));
-    // }
+    template.className = `card card--edit ${this._cardName}`;
+    template.querySelector(`.card__text`).value = this._title;
+
     // if (!this._date && !this._time) {
     //   template
     //     .querySelector(`.card__details`)
@@ -40,19 +46,26 @@ class TaskEdit {
     //     .querySelector(`.card__settings`)
     //     .removeChild(template.querySelector(`.card__img-wrap`));
     // }
+    const container = document.createElement("div");
+    container.appendChild(template);
 
-    return template;
+    return container;
   }
   render() {
     const boardContainer = document.querySelector(`.board__tasks`);
-    if (this._element) {
-      boardContainer.removeChild(this._element);
-      this._element = null;
-    }
     this._element = this.template;
     boardContainer.appendChild(this._element);
+
+    this._element
+      .querySelector(`.card__save`)
+      .addEventListener("submit", this._onSubmitButtonClick.bind(this));
   }
-  unrender() {}
+  unrender() {
+    this._element
+      .querySelector(`.card__save`)
+      .removeEventListener("submit", this._onSubmitButtonClick.bind(this));
+    this._element = null;
+  }
 }
 
 export { TaskEdit };
