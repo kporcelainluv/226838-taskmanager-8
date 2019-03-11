@@ -86,102 +86,72 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "./src/card.js":
+/***/ "./src/data.js":
 /*!*********************!*\
-  !*** ./src/card.js ***!
+  !*** ./src/data.js ***!
   \*********************/
-/*! exports provided: cardsFilling, displayCard */
+/*! exports provided: cardsFilling */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cardsFilling", function() { return cardsFilling; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "displayCard", function() { return displayCard; });
 const cardsFilling = [
   {
-    name: `card--black`,
+    cardName: `card--black`,
     color: `black`,
-    text: `This is example of new task, you can add picture, set date and time, add tags.`,
+    title: ` wow congrats This is example of new task, you can add picture, set date and time, add tags.`,
     hashtag: false,
     date: false,
     time: false,
     img: false
   },
   {
-    name: `card--pink card--repeat`,
+    cardName: `card--pink card--repeat`,
     color: `pink`,
-    text: `It is example of repeating task. It marks by wave.`,
+    title: `It is example of repeating task. It marks by wave.`,
     hashtag: true,
     date: false,
     time: false,
     img: false
   },
   {
-    name: `card--yellow card--deadline`,
+    cardName: `card--yellow card--deadline`,
     color: `red`,
-    text: `This is card with missing deadline`,
+    title: `This is card with missing deadline`,
     hashtag: true,
     date: false,
     time: false,
     img: false
   },
   {
-    name: `card--yellow card--repeat`,
+    cardName: `card--yellow card--repeat`,
     color: `yellow`,
-    text: `Here is a card with filled data`,
+    title: `Here is a card with filled data`,
     hashtag: true,
     date: `23 SEPTEMBER`,
     time: `11:15 PM`,
     img: true
   },
   {
-    name: `card--blue`,
+    cardName: `card--blue`,
     color: `blue`,
-    text: ``,
+    title: ``,
     hashtag: true,
     date: false,
     time: false,
     img: false
   },
   {
-    name: `card--blue`,
+    cardName: `card--blue`,
     color: `blue`,
-    text: ``,
+    title: ``,
     hashtag: true,
     date: `23 SEPTEMBER`,
     time: `11:15 PM`,
     img: true
   }
 ];
-
-const displayCard = ({ name, hashtag, text, date, time, img }) => {
-  const template = document
-    .querySelector(`.card_board_card`)
-    .content.querySelector(`.card`)
-    .cloneNode(true);
-  template.className = `card ${name}`;
-  template.querySelector(`.card__text`).value = text;
-  if (!hashtag) {
-    template
-      .querySelector(`.card__details`)
-      .removeChild(template.querySelector(`.card__hashtag`));
-  }
-  if (!date && !time) {
-    template
-      .querySelector(`.card__details`)
-      .removeChild(template.querySelector(`.card__dates`));
-  }
-  if (!img) {
-    template
-      .querySelector(`.card__settings`)
-      .removeChild(template.querySelector(`.card__img-wrap`));
-  }
-
-  const boardContainer = document.querySelector(`.board__tasks`);
-  boardContainer.appendChild(template);
-};
-
-cardsFilling.map(elm => displayCard(elm));
 
 
 
@@ -191,7 +161,7 @@ cardsFilling.map(elm => displayCard(elm));
 /*!***********************!*\
   !*** ./src/filter.js ***!
   \***********************/
-/*! exports provided: createFiltersSection, filters, removeAllChildren, generateRandomNumber, arrayOfFilters */
+/*! exports provided: createFiltersSection, filters, removeAllChildren, generateRandomNumber */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -200,7 +170,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "filters", function() { return filters; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeAllChildren", function() { return removeAllChildren; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "generateRandomNumber", function() { return generateRandomNumber; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "arrayOfFilters", function() { return arrayOfFilters; });
 let filters = [
   { name: `ALL`, amount: 15, checked: true, disabled: false },
   { name: `OVERDUE`, amount: 0, checked: false, disabled: true },
@@ -261,10 +230,6 @@ function generateRandomNumber(min = 0, max = 6) {
   return Math.floor(Math.random() * (max - min) + min);
 }
 
-const arrayOfFilters = Array.from(
-  document.querySelectorAll(`.main__filter label`)
-);
-
 
 
 
@@ -279,27 +244,220 @@ const arrayOfFilters = Array.from(
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _card_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./card.js */ "./src/card.js");
-/* harmony import */ var _filter_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./filter.js */ "./src/filter.js");
+/* harmony import */ var _data_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./data.js */ "./src/data.js");
+/* harmony import */ var _task_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./task.js */ "./src/task.js");
+/* harmony import */ var _taskEdit_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./taskEdit.js */ "./src/taskEdit.js");
+/* harmony import */ var _filter_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./filter.js */ "./src/filter.js");
 
 
-Object(_filter_js__WEBPACK_IMPORTED_MODULE_1__["createFiltersSection"])(_filter_js__WEBPACK_IMPORTED_MODULE_1__["filters"]);
-_card_js__WEBPACK_IMPORTED_MODULE_0__["cardsFilling"].map(elm => Object(_card_js__WEBPACK_IMPORTED_MODULE_0__["displayCard"])(elm));
 
-// arrayOfFilters.forEach(filt => {
-//   filt.addEventListener(`click`, () => {
-//     const filterID = filt.htmlFor;
-//     if (document.querySelector(`#${filterID}`).disabled === false) {
-//       const randomAmountOfCards = generateRandomNumber(1, 20);
-//       const cardsContainer = document.querySelector(`.board__tasks`);
-//       removeAllChildren(cardsContainer);
-//       for (let i = 0; i <= randomAmountOfCards; i++) {
-//         const randomIndex = generateRandomNumber();
-//         displayCard(cardsFilling[randomIndex]);
-//       }
-//     }
-//   });
-// });
+
+
+Object(_filter_js__WEBPACK_IMPORTED_MODULE_3__["createFiltersSection"])(_filter_js__WEBPACK_IMPORTED_MODULE_3__["filters"]);
+
+// start
+const newCard = new _task_js__WEBPACK_IMPORTED_MODULE_1__["Task"](_data_js__WEBPACK_IMPORTED_MODULE_0__["cardsFilling"][0]);
+newCard.onEdit = () => {
+  const newCardElement = newCard.element;
+  // newCard.unrender();
+  const newEditableCard = new _taskEdit_js__WEBPACK_IMPORTED_MODULE_2__["TaskEdit"](_data_js__WEBPACK_IMPORTED_MODULE_0__["cardsFilling"][0], newCardElement);
+  newEditableCard.render();
+};
+newCard.render();
+
+// end
+
+const newCard2 = new _task_js__WEBPACK_IMPORTED_MODULE_1__["Task"](_data_js__WEBPACK_IMPORTED_MODULE_0__["cardsFilling"][1]);
+newCard2.render();
+
+const arrayOfFilters = Array.from(
+  document.querySelectorAll(`.main__filter label`)
+);
+
+arrayOfFilters.forEach(filt => {
+  filt.addEventListener(`click`, () => {
+    const filterID = filt.htmlFor;
+    if (document.querySelector(`#${filterID}`).disabled === false) {
+      const randomAmountOfCards = Object(_filter_js__WEBPACK_IMPORTED_MODULE_3__["generateRandomNumber"])(1, 20);
+      const cardsContainer = document.querySelector(`.board__tasks`);
+      Object(_filter_js__WEBPACK_IMPORTED_MODULE_3__["removeAllChildren"])(cardsContainer);
+      for (let i = 0; i <= randomAmountOfCards; i++) {
+        displayCard(_data_js__WEBPACK_IMPORTED_MODULE_0__["cardsFilling"][Object(_filter_js__WEBPACK_IMPORTED_MODULE_3__["generateRandomNumber"])()]);
+      }
+    }
+  });
+});
+
+
+/***/ }),
+
+/***/ "./src/task.js":
+/*!*********************!*\
+  !*** ./src/task.js ***!
+  \*********************/
+/*! exports provided: Task */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Task", function() { return Task; });
+class Task {
+  constructor(data) {
+    this._cardName = data.cardName;
+    this._title = data.title;
+    this._color = data.color;
+    this._hashtag = data.hashtag;
+    this._date = data.date;
+    this._time = data.time;
+    this._img = data.img;
+    this._repeatingDays = data.repeatingDays;
+    this._element = null;
+    this._state = {
+      isEdit: false
+    };
+    this._onEdit = null;
+  }
+  _onEditButtonClick(event) {
+    event.preventDefault();
+    console.log("onEditButtonCls", { event });
+    console.log(typeof this._onEdit);
+    if (typeof this._onEdit === `function`) {
+      this._onEdit();
+    }
+  }
+
+  set onEdit(fn) {
+    this._onEdit = fn;
+    console.log("onEdit", { fn }, this._onEdit);
+  }
+
+  get element() {
+    return this._element;
+  }
+
+  get template() {
+    const template = document
+      .querySelector(`.card_board_card`)
+      .content.querySelector(`.card`)
+      .cloneNode(true);
+    template.className = `card ${this._cardName}`;
+    template.querySelector(`.card__text`).value = this._title;
+    if (!this._hashtag) {
+      template
+        .querySelector(`.card__details`)
+        .removeChild(template.querySelector(`.card__hashtag`));
+    }
+    if (!this._date && !this._time) {
+      template
+        .querySelector(`.card__details`)
+        .removeChild(template.querySelector(`.card__dates`));
+    }
+    if (!this._img) {
+      template
+        .querySelector(`.card__settings`)
+        .removeChild(template.querySelector(`.card__img-wrap`));
+    }
+    return template;
+  }
+
+  render() {
+    const boardContainer = document.querySelector(`.board__tasks`);
+    this._element = this.template;
+    boardContainer.appendChild(this._element);
+
+    const editButton = this._element.querySelector(`.card__btn--edit`);
+    editButton.addEventListener("click", this._onEditButtonClick.bind(this));
+    // console.log("editButton", { editButton });
+  }
+
+  unrender() {
+    const editButton = this._element.querySelector(`.card__btn--edit`);
+    editButton.removeEventListener("click", this._onEditButtonClick);
+    this._element.remove();
+    this._element = null;
+  }
+}
+
+
+
+
+/***/ }),
+
+/***/ "./src/taskEdit.js":
+/*!*************************!*\
+  !*** ./src/taskEdit.js ***!
+  \*************************/
+/*! exports provided: TaskEdit */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TaskEdit", function() { return TaskEdit; });
+class TaskEdit {
+  constructor(data) {
+    this._cardName = data.cardName;
+    this._title = data.title;
+    this._color = data.color;
+    this._hashtag = data.hashtag;
+    this._date = data.date;
+    this._time = data.time;
+    this._img = data.img;
+    this._repeatingDays = data.repeatingDays;
+    this._element = null;
+    this._state = {
+      isEdit: false
+    };
+    this._onSubmit = null;
+  }
+  set onSubmit(f) {
+    return (this._onSubmit = f);
+  }
+  get template() {
+    const template = document
+      .querySelector(`.card-on-edit`)
+      .content.querySelector(`.card--edit`)
+      .cloneNode(true);
+
+    // template.className = `card ${this._cardName}`;
+    // template.querySelector(`.card__text`).value = this._title;
+    // if (!this._hashtag) {
+    //   template
+    //     .querySelector(`.card__details`)
+    //     .removeChild(template.querySelector(`.card__hashtag`));
+    // }
+    // if (!this._date && !this._time) {
+    //   template
+    //     .querySelector(`.card__details`)
+    //     .removeChild(template.querySelector(`.card__dates`));
+    // }
+    // if (!this._img) {
+    //   template
+    //     .querySelector(`.card__settings`)
+    //     .removeChild(template.querySelector(`.card__img-wrap`));
+    // }
+
+    return template;
+  }
+  render() {
+    const boardContainer = document.querySelector(`.board__tasks`);
+    if (this._element) {
+      boardContainer.removeChild(this._element);
+      this._element = null;
+    }
+    this._element = this.template;
+    if (this._elementToReplace) {
+      this._elementToReplace.parentNode.replaceChild(
+        this._element,
+        _elementToReplace
+      );
+      return;
+    }
+    boardContainer.appendChild(this._element);
+  }
+  unrender() {}
+}
+
+
 
 
 /***/ })
