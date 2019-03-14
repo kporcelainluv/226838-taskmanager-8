@@ -48,21 +48,15 @@ class Task extends Component {
 
     return container;
   }
-  render() {
-    const boardContainer = document.querySelector(`.board__tasks`);
-    this._element = this.template;
-    boardContainer.appendChild(this._element);
-
+  addEventListeners() {
     this._element
       .querySelector(`.card__btn--edit`)
       .addEventListener(`click`, this._onEditButtonClick.bind(this));
   }
-
-  unrender() {
+  removeEventListeners() {
     this._element
       .querySelector(`.card__btn--edit`)
       .addEventListener(`click`, this._onEditButtonClick.bind(this));
-    this._element = null;
   }
 }
 

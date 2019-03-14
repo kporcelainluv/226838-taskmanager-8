@@ -37,20 +37,15 @@ class TaskEdit extends Component {
 
     return container;
   }
-  render() {
-    const boardContainer = document.querySelector(`.board__tasks`);
-    this._element = this.template;
-    boardContainer.appendChild(this._element);
-
+  addEventListeners() {
     this._element
       .querySelector(`.card__form`)
       .addEventListener(`submit`, this._onSubmitButtonClick.bind(this));
   }
-  unrender() {
+  removeEventListeners() {
     this._element
       .querySelector(`.card__form`)
       .removeEventListener(`submit`, this._onSubmitButtonClick.bind(this));
-    this._element = null;
   }
 }
 
