@@ -1,5 +1,4 @@
 import { Component } from "./component.js";
-
 class Task extends Component {
   constructor(data) {
     super();
@@ -15,8 +14,8 @@ class Task extends Component {
   }
   _onEditButtonClick(event) {
     event.preventDefault();
-    if (typeof this._onSubmit === `function`) {
-      this._onSubmit();
+    if (typeof this._onEdit === `function`) {
+      this._onEdit();
     }
   }
   set onEdit(fn) {
