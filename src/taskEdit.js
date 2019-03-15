@@ -1,5 +1,8 @@
-class TaskEdit {
+import { Component } from "./component.js";
+
+class TaskEdit extends Component {
   constructor(data) {
+    super();
     this._cardName = data.cardName;
     this._title = data.title;
     this._color = data.color;
@@ -8,10 +11,6 @@ class TaskEdit {
     this._time = data.time;
     this._img = data.img;
     this._repeatingDays = data.repeatingDays;
-    this._element = null;
-    this._state = {
-      isEdit: false
-    };
     this._onSubmit = null;
   }
   _onSubmitButtonClick(event) {
@@ -19,9 +18,6 @@ class TaskEdit {
     if (typeof this._onSubmit === `function`) {
       this._onSubmit();
     }
-  }
-  get element() {
-    return this._element;
   }
   set onSubmit(f) {
     this._onSubmit = f;
@@ -41,20 +37,15 @@ class TaskEdit {
 
     return container;
   }
-  render() {
-    const boardContainer = document.querySelector(`.board__tasks`);
-    this._element = this.template;
-    boardContainer.appendChild(this._element);
-
+  addEventListeners() {
     this._element
       .querySelector(`.card__form`)
       .addEventListener(`submit`, this._onSubmitButtonClick.bind(this));
   }
-  unrender() {
+  removeEventListeners() {
     this._element
       .querySelector(`.card__form`)
       .removeEventListener(`submit`, this._onSubmitButtonClick.bind(this));
-    this._element = null;
   }
 }
 

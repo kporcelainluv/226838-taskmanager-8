@@ -1,5 +1,7 @@
-class Task {
+import { Component } from "./component.js";
+class Task extends Component {
   constructor(data) {
+    super();
     this._cardName = data.cardName;
     this._title = data.title;
     this._color = data.color;
@@ -8,10 +10,6 @@ class Task {
     this._time = data.time;
     this._img = data.img;
     this._repeatingDays = data.repeatingDays;
-    this._element = null;
-    this._state = {
-      isEdit: false
-    };
     this._onEdit = null;
   }
   _onEditButtonClick(event) {
@@ -20,15 +18,9 @@ class Task {
       this._onEdit();
     }
   }
-
   set onEdit(fn) {
     this._onEdit = fn;
   }
-
-  get element() {
-    return this._element;
-  }
-
   get template() {
     const template = document
       .querySelector(`.card_board_card`)
@@ -56,22 +48,15 @@ class Task {
 
     return container;
   }
-
-  render() {
-    const boardContainer = document.querySelector(`.board__tasks`);
-    this._element = this.template;
-    boardContainer.appendChild(this._element);
-
+  addEventListeners() {
     this._element
       .querySelector(`.card__btn--edit`)
       .addEventListener(`click`, this._onEditButtonClick.bind(this));
   }
-
-  unrender() {
+  removeEventListeners() {
     this._element
       .querySelector(`.card__btn--edit`)
       .addEventListener(`click`, this._onEditButtonClick.bind(this));
-    this._element = null;
   }
 }
 
