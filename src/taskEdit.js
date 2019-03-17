@@ -5,17 +5,22 @@ class TaskEdit extends Component {
     super();
     this._title = data.title;
     this._color = data.color;
-    this._hashtag = data.tags;
+    this._tags = data.tags;
     this._img = data.picture;
     this._repeatingDays = data.repeatingDays;
     this._onSubmit = null;
+    this._state = {};
 
-    this.isRepeated = false;
-    this.isRepeated = false;
-
+    this._state.isDate = false;
+    this._state.isRepeated = false;
+    console.log(this._state);
     this._onChangeDate = this._onChangeDate.bind(this);
     this._onChangeRepeated = this._onChangeRepeated.bind(this);
     this._onSubmitButtonClick = this._onSubmitButtonClick.bind(this);
+  }
+
+  _iisRepeated() {
+    return Object.values(this._repeatingDays).some(it => it === true);
   }
   _processForm(formData) {
     const entry = {
@@ -33,32 +38,6 @@ class TaskEdit extends Component {
         su: false
       }
     };
-  }
-  _onSubmitButtonClick(event) {
-    event.preventDefault();
-    const formData = new FormData(this._element.querySelector(`.card__form`));
-    // const newData = this._processForm(formData);
-    // typeof this._onSubmit === `function` && this._onSubmit(newData);
-    console.log(formData);
-    // this.update(newData);
-  }
-  static createMapper(target) {
-    const entry = {
-      title: ``,
-      color: ``,
-      tags: new Set(),
-      dueDate: new Date(),
-      repeatingDays: {
-        mo: false,
-        tu: false,
-        we: false,
-        th: false,
-        fr: false,
-        sa: false,
-        su: false
-      }
-    };
-
     const taskEditMapper = TaskEdit.createMapper(entry);
 
     for (const pair of formData.entries()) {
@@ -68,25 +47,33 @@ class TaskEdit extends Component {
 
     return entry;
   }
+  _onSubmitButtonClick(event) {
+    event.preventDefault();
 
+    const formData = new FormData(this._element.querySelector(`.card__form`));
+    const newData = this._processForm(formData);
+    typeof this._onSubmit === `function` && this._onSubmit(newData);
+
+    this.update(newData);
+  }
   set onSubmit(f) {
     this._onSubmit = f;
   }
-  _isRepeated() {
-    return Object.values(this._repeatingDays).some(it => it === true);
-  }
   _onChangeDate() {
-    this.isRepeated = !this.isRepeated;
-    this.unrender();
-    this.element = this.template();
-    this.render();
+    this._state.isDate = !this._state.isDate;
+    this.removeEventListeners();
+    this._partialUpdate();
+    this.addEventListeners();
   }
 
   _onChangeRepeated() {
-    this.isRepeated = !this.isRepeated;
-    this.unrender();
-    this.element = this.template();
-    this.re;
+    this._state.isRepeated = !this._state.isRepeated;
+    this.removeEventListeners();
+    this._partialUpdate();
+    this.addEventListeners();
+  }
+  _partialUpdate() {
+    this._element = this.template;
   }
 
   get template() {
@@ -96,55 +83,44 @@ class TaskEdit extends Component {
       .cloneNode(true);
 
     template.className += ` ${Color[this._color]} ${
-      this._isRepeated() ? `card--repeat` : ``
+      this._iisRepeated() ? `card--repeat` : ``
     }`;
     template.querySelector(`.card__text`).value = this._title;
 
-    if (!this._hashtag) {
-      template
-        .querySelector(`.card__details`)
-        .removeChild(template.querySelector(`.card__hashtag`));
+    this._tags.forEach(tagName => {
+      const hashtagList = template.querySelector(`.card__hashtag-list`);
+      const span = document.createElement("span");
+      span.className = "card__hashtag-inner";
+      const input = document.createElement("input");
+      input.type = "hidden";
+      input.name = "hashtag";
+      input.value = "repeat";
+      input.className = "card__hashtag-hidden-input";
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "card__hashtag-name";
+      button.innerHTML = `#${tagName}`;
+      const buttonDelete = document.createElement("button");
+      buttonDelete.type = "button";
+      buttonDelete.className = "card__hashtag-delete";
+      buttonDelete.innerHTML = "delete";
+
+      span.appendChild(input);
+      span.appendChild(button);
+      span.appendChild(buttonDelete);
+      hashtagList.appendChild(span);
+    });
+    // toggle repeating days
+    const repeatStatus = template.querySelector(`.card__repeat-status`);
+    console.log(repeatStatus);
+    if (this._state.isRepeated === true) {
+      repeatStatus.innerHTML = "YES";
     } else {
-      this._hashtag.forEach(tagName => {
-        const hashtagList = template.querySelector(`.card__hashtag-list`);
-        const span = document.createElement("span");
-        span.className = "card__hashtag-inner";
-        const input = document.createElement("input");
-        input.type = "hidden";
-        input.name = "hashtag";
-        input.value = "repeat";
-        input.className = "card__hashtag-hidden-input";
-        const button = document.createElement("button");
-        button.type = "button";
-        button.className = "card__hashtag-name";
-        button.innerHTML = `#${tagName}`;
-        const buttonDelete = document.createElement("button");
-        buttonDelete.type = "button";
-        buttonDelete.className = "card__hashtag-delete";
-        buttonDelete.innerHTML = "delete";
-
-        span.appendChild(input);
-        span.appendChild(button);
-        span.appendChild(buttonDelete);
-        hashtagList.appendChild(span);
-      });
-      const dateStatus = template.querySelector(`.card__date-status`);
-      if (!this.isRepeated) {
-        dateStatus.innerHTML = "YES";
-      } else {
-        dateStatus.innerHTML = "NO";
-      }
-
-      const repeatStatus = template.querySelector(`.card__repeat-status`);
-      if (!this.isRepeated) {
-        repeatStatus.innerHTML = "YES";
-      } else {
-        repeatStatus.innerHTML = "NO";
-      }
-      // write logic for datas if repeatStatus is true
-      // write colors logic ??
+      repeatStatus.innerHTML = "NO";
     }
-
+    const repeatWeekdays = template.querySelector(`.card__repeat-days`);
+    repeatWeekdays.disabled = !this._state.isRepeated;
+    // toggle repeating days
     const container = document.createElement(`div`);
     container.appendChild(template);
 
@@ -153,20 +129,41 @@ class TaskEdit extends Component {
   addEventListeners() {
     this._element
       .querySelector(`.card__form`)
-      .addEventListener(`submit`, this._onSubmitButtonClick.bind(this));
+      .addEventListener(`submit`, this._onSubmitButtonClick);
+    this._element
+      .querySelector(`.card__date-deadline-toggle`)
+      .addEventListener(`click`, this._onChangeDate);
+    this._element
+      .querySelector(`.card__repeat-toggle`)
+      .addEventListener(`click`, this._onChangeRepeated);
   }
   removeEventListeners() {
     this._element
       .querySelector(`.card__form`)
-      .removeEventListener(`submit`, this._onSubmitButtonClick.bind(this));
+      .removeEventListener(`submit`, this._onSubmitButtonClick);
+    this._element
+      .querySelector(`.card__date-deadline-toggle`)
+      .removeEventListener(`click`, this._onChangeDate);
+    this._element
+      .querySelector(`.card__repeat-toggle`)
+      .removeEventListener(`click`, this._onChangeRepeated);
   }
   update(data) {
     this._title = data.title;
-    this._tags = data.tags;
     this._color = data.color;
+    this._tags = data.tags;
     this._img = data.picture;
     this._repeatingDays = data.repeatingDays;
-    this._date = data.dueDate;
+    this._dueDate = data.dueDate;
+  }
+  static createMapper(target) {
+    return {
+      hashtag: value => target.tags.add(value),
+      text: value => (target.title = value),
+      color: value => (target.color = value),
+      repeat: value => (target.repeatingDays[value] = true),
+      date: value => target.dueDate[value]
+    };
   }
 }
 

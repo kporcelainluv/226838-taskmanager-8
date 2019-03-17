@@ -24,7 +24,6 @@ const fillCOntainerWithCards = () => {
   };
 
   editTaskComponent.onSubmit = newObject => {
-    console.log({ newObject });
     cardsFilling.title = newObject.title;
     cardsFilling.tags = newObject.tags;
     cardsFilling.color = newObject.color;
@@ -37,7 +36,6 @@ const fillCOntainerWithCards = () => {
     editTaskComponent.unrender();
   };
 };
-fillCOntainerWithCards();
 fillCOntainerWithCards();
 
 const arrayOfFilters = Array.from(

@@ -61,11 +61,6 @@ class Task extends Component {
         hashtagList.appendChild(span);
       });
     }
-    // if (!this._date && !this._time) {
-    //   template
-    //     .querySelector(`.card__details`)
-    //     .removeChild(template.querySelector(`.card__dates`));
-    // }
     if (!this._img) {
       template
         .querySelector(`.card__settings`)
@@ -93,9 +88,9 @@ class Task extends Component {
     this._title = data.title;
     this._color = data.color;
     this._hashtag = data.tags;
-    this._date = data.dueDate;
     this._img = data.picture;
     this._repeatingDays = data.repeatingDays;
+    this._dueDate = data.dueDate;
   }
 }
 
