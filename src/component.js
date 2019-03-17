@@ -23,5 +23,7 @@ class Component {
   }
   addEventListeners() {}
   removeEventListeners() {}
+
+  update() {}
 }
 export { Component };

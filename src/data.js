@@ -1,57 +1,30 @@
-const cardsFilling = [
-  {
-    cardName: `card--black`,
-    color: `black`,
-    title: ` wow congrats This is example of new task, you can add picture, set date and time, add tags.`,
-    hashtag: false,
-    date: false,
-    time: false,
-    img: false
+const cardsFilling = {
+  title: [`Prepare for the pitch`, `find money for travel`, `eat something`][
+    Math.floor(Math.random() * 3)
+    // Math.floor(Math.random() * (3 - 1)) + 1
+  ],
+  dueDate: Date.now() + 1 + Math.floor(Math.random() * 7) * 24 * 60 * 60 * 1000,
+  tags: new Set([`cinema`, `entertainment`, `myself`, `cinema`]),
+  picture: `//picsum.photos/100/100?r=${Math.random()}`,
+  repeatingDays: {
+    mo: false,
+    tu: false,
+    we: false,
+    th: false,
+    fr: false,
+    sa: false,
+    su: false
   },
-  {
-    cardName: `card--pink card--repeat`,
-    color: `pink`,
-    title: `It is example of repeating task. It marks by wave.`,
-    hashtag: false,
-    date: false,
-    time: false,
-    img: false
-  },
-  {
-    cardName: `card--yellow card--deadline`,
-    color: `red`,
-    title: `This is card with missing deadline`,
-    hashtag: true,
-    date: false,
-    time: false,
-    img: false
-  },
-  {
-    cardName: `card--yellow card--repeat`,
-    color: `yellow`,
-    title: `Here is a card with filled data`,
-    hashtag: true,
-    date: `23 SEPTEMBER`,
-    time: `11:15 PM`,
-    img: true
-  },
-  {
-    cardName: `card--blue`,
-    color: `blue`,
-    title: ``,
-    hashtag: true,
-    date: false,
-    time: false,
-    img: false
-  },
-  {
-    cardName: `card--blue`,
-    color: `blue`,
-    title: ``,
-    hashtag: true,
-    date: `23 SEPTEMBER`,
-    time: `11:15 PM`,
-    img: true
-  }
-];
-export { cardsFilling };
+  color: [`black`, `yellow`, `blue`, `pink`, `green`][
+    Math.floor(Math.random() * 6)
+  ]
+};
+
+const Color = {
+  blue: `card--blue`,
+  black: `card--black`,
+  yellow: `card--yellow`,
+  green: `card--green`,
+  pink: `card--pink`
+};
+export { cardsFilling, Color };
