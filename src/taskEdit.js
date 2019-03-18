@@ -60,10 +60,18 @@ class TaskEdit extends Component {
     this._onSubmit = f;
   }
   _onChangeDate() {
+    console.log({
+      elementInOnChangeDate: this._element
+    });
     this._state.isDate = !this._state.isDate;
     console.log("date state", this._state.isDate);
     this.removeEventListeners();
     this._partialUpdate();
+
+    console.log({
+      elementInOnChangeDateAfterPartialUpdate: this._element
+    });
+
     this.addEventListeners();
   }
 
@@ -73,8 +81,11 @@ class TaskEdit extends Component {
     this._partialUpdate();
     this.addEventListeners();
   }
+
   _partialUpdate() {
-    this._element.parentNode.replaceChild(this.template, this._element);
+    const t = this.template;
+    this._element.parentNode.replaceChild(t, this._element);
+    this._element = t;
   }
 
   get template() {
@@ -112,6 +123,11 @@ class TaskEdit extends Component {
       hashtagList.appendChild(span);
     });
     const toggleDate = template.querySelector(`.card__date-status`);
+
+    console.log({
+      isDate: this._state.isDate
+    });
+
     toggleDate.innerHTML = this._state.isDate ? "YES" : "NO";
     template.querySelector(`.card__date-deadline`).disabled = !this._state
       .isDate;
@@ -126,6 +142,10 @@ class TaskEdit extends Component {
     return container;
   }
   addEventListeners() {
+    console.log({
+      elementInAddListeners: this._element
+    });
+
     console.log("add");
     this._element
       .querySelector(`.card__form`)
@@ -137,6 +157,7 @@ class TaskEdit extends Component {
       .querySelector(`.card__repeat-toggle`)
       .addEventListener(`click`, this._onChangeRepeated);
   }
+
   removeEventListeners() {
     console.log("remove");
     this._element
@@ -149,6 +170,7 @@ class TaskEdit extends Component {
       .querySelector(`.card__repeat-toggle`)
       .removeEventListener(`click`, this._onChangeRepeated);
   }
+
   update(data) {
     this._title = data.title;
     this._color = data.color;
