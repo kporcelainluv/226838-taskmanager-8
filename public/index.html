@@ -9,6 +9,12 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link rel="stylesheet" href="css/normalize.css" />
     <link rel="stylesheet" href="css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
     <title>TASKMANAGER</title>
   </head>
 
@@ -155,7 +161,7 @@
 
             <div class="card__color-bar">
               <svg class="card__color-bar-wave" width="100%" height="10">
-                <!-- <use xlink:href="#wave"></use> -->
+                <use xlink:href="#wave"></use>
               </svg>
             </div>
 
@@ -181,18 +187,18 @@
                       <input
                         class="card__date"
                         type="text"
-                        placeholder="23 September"
+                        placeholder=""
                         name="date"
-                        value="23 September"
+                        value=""
                       />
                     </label>
                     <label class="card__input-deadline-wrap">
                       <input
                         class="card__time"
                         type="text"
-                        placeholder="11:15 PM"
+                        placeholder=""
                         name="time"
-                        value="11:15 PM"
+                        value=""
                       />
                     </label>
                   </fieldset>
@@ -404,9 +410,9 @@
             </div>
 
             <div class="card__color-bar">
-              <svg width="100%" height="10">
+              <!-- <svg width="100%" height="10">
                 <use xlink:href="#wave"></use>
-              </svg>
+              </svg> -->
             </div>
 
             <div class="card__textarea-wrap">

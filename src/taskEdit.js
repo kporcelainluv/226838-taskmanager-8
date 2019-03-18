@@ -1,5 +1,8 @@
 import { Component } from "./component.js";
 import { Color } from "./data.js";
+import flatpickr from "flatpickr";
+import moment from "moment";
+
 class TaskEdit extends Component {
   constructor(data) {
     super();
@@ -39,7 +42,6 @@ class TaskEdit extends Component {
       }
     };
     const taskEditMapper = TaskEdit.createMapper(entry);
-
     for (const pair of formData.entries()) {
       const [property, value] = pair;
       taskEditMapper[property] && taskEditMapper[property](value);
@@ -61,7 +63,6 @@ class TaskEdit extends Component {
   }
   _onChangeDate() {
     this._state.isDate = !this._state.isDate;
-    console.log("date state", this._state.isDate);
     this.removeEventListeners();
     this._partialUpdate();
     this.addEventListeners();
@@ -74,7 +75,9 @@ class TaskEdit extends Component {
     this.addEventListeners();
   }
   _partialUpdate() {
-    this._element.parentNode.replaceChild(this.template, this._element);
+    const updatedTemplate = this.template;
+    this._element.parentNode.replaceChild(updatedTemplate, this._element);
+    this._element = updatedTemplate;
   }
 
   get template() {
@@ -111,6 +114,7 @@ class TaskEdit extends Component {
       span.appendChild(buttonDelete);
       hashtagList.appendChild(span);
     });
+
     const toggleDate = template.querySelector(`.card__date-status`);
     toggleDate.innerHTML = this._state.isDate ? "YES" : "NO";
     template.querySelector(`.card__date-deadline`).disabled = !this._state
@@ -120,13 +124,20 @@ class TaskEdit extends Component {
     template.querySelector(`.card__repeat-days`).disabled = !this._state
       .isRepeated;
 
+    if (this._dueDate) {
+      toggleDate.innerHTML = "YES";
+      const date = template.querySelector(`.card__date`);
+      date.value = moment(this._dueDate).format("D MMMM");
+      const time = template.querySelector(`.card__time`);
+      time.value = moment(this._dueDate).format("h:mm");
+    }
+
     const container = document.createElement(`div`);
     container.appendChild(template);
 
     return container;
   }
   addEventListeners() {
-    console.log("add");
     this._element
       .querySelector(`.card__form`)
       .addEventListener(`submit`, this._onSubmitButtonClick);
@@ -136,9 +147,23 @@ class TaskEdit extends Component {
     this._element
       .querySelector(`.card__repeat-toggle`)
       .addEventListener(`click`, this._onChangeRepeated);
+
+    if (this._state.isDate) {
+      flatpickr(".card__date", {
+        altInput: true,
+        altFormat: "j F",
+        dateFormat: "j F"
+      });
+      flatpickr(".card__time", {
+        enableTime: true,
+        noCalendar: true,
+        altInput: true,
+        altFormat: "h:i K",
+        dateFormat: "h:i K"
+      });
+    }
   }
   removeEventListeners() {
-    console.log("remove");
     this._element
       .querySelector(`.card__form`)
       .removeEventListener(`submit`, this._onSubmitButtonClick);

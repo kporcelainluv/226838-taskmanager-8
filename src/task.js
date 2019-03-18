@@ -1,5 +1,6 @@
 import { Component } from "./component.js";
 import { Color } from "./data.js";
+import moment from "moment";
 class Task extends Component {
   constructor(data) {
     super();
@@ -61,6 +62,11 @@ class Task extends Component {
         hashtagList.appendChild(span);
       });
     }
+    const date = template.querySelector(`.card__date`);
+    date.value = moment(this._date).format("D MMMM");
+    const time = template.querySelector(`.card__time`);
+    time.value = moment(this._date).format("h:mm");
+
     if (!this._img) {
       template
         .querySelector(`.card__settings`)
