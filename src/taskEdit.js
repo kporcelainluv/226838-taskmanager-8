@@ -10,16 +10,16 @@ class TaskEdit extends Component {
     this._repeatingDays = data.repeatingDays;
     this._onSubmit = null;
     this._state = {};
+    this._dueDate = data.dueDate;
 
     this._state.isDate = false;
     this._state.isRepeated = false;
-    console.log(this._state);
     this._onChangeDate = this._onChangeDate.bind(this);
     this._onChangeRepeated = this._onChangeRepeated.bind(this);
     this._onSubmitButtonClick = this._onSubmitButtonClick.bind(this);
   }
 
-  _iisRepeated() {
+  _isRepeated() {
     return Object.values(this._repeatingDays).some(it => it === true);
   }
   _processForm(formData) {
@@ -61,6 +61,7 @@ class TaskEdit extends Component {
   }
   _onChangeDate() {
     this._state.isDate = !this._state.isDate;
+    console.log("date state", this._state.isDate);
     this.removeEventListeners();
     this._partialUpdate();
     this.addEventListeners();
@@ -73,7 +74,7 @@ class TaskEdit extends Component {
     this.addEventListeners();
   }
   _partialUpdate() {
-    this._element = this.template;
+    this._element.parentNode.replaceChild(this.template, this._element);
   }
 
   get template() {
@@ -83,7 +84,7 @@ class TaskEdit extends Component {
       .cloneNode(true);
 
     template.className += ` ${Color[this._color]} ${
-      this._iisRepeated() ? `card--repeat` : ``
+      this._state.isRepeated ? `card--repeat` : ``
     }`;
     template.querySelector(`.card__text`).value = this._title;
 
@@ -110,23 +111,22 @@ class TaskEdit extends Component {
       span.appendChild(buttonDelete);
       hashtagList.appendChild(span);
     });
-    // toggle repeating days
-    const repeatStatus = template.querySelector(`.card__repeat-status`);
-    console.log(repeatStatus);
-    if (this._state.isRepeated === true) {
-      repeatStatus.innerHTML = "YES";
-    } else {
-      repeatStatus.innerHTML = "NO";
-    }
-    const repeatWeekdays = template.querySelector(`.card__repeat-days`);
-    repeatWeekdays.disabled = !this._state.isRepeated;
-    // toggle repeating days
+    const toggleDate = template.querySelector(`.card__date-status`);
+    toggleDate.innerHTML = this._state.isDate ? "YES" : "NO";
+    template.querySelector(`.card__date-deadline`).disabled = !this._state
+      .isDate;
+    const toggleRepeatStatus = template.querySelector(`.card__repeat-status`);
+    toggleRepeatStatus.innerHTML = this._state.isRepeated ? "YES" : "NO";
+    template.querySelector(`.card__repeat-days`).disabled = !this._state
+      .isRepeated;
+
     const container = document.createElement(`div`);
     container.appendChild(template);
 
     return container;
   }
   addEventListeners() {
+    console.log("add");
     this._element
       .querySelector(`.card__form`)
       .addEventListener(`submit`, this._onSubmitButtonClick);
@@ -138,6 +138,7 @@ class TaskEdit extends Component {
       .addEventListener(`click`, this._onChangeRepeated);
   }
   removeEventListeners() {
+    console.log("remove");
     this._element
       .querySelector(`.card__form`)
       .removeEventListener(`submit`, this._onSubmitButtonClick);
