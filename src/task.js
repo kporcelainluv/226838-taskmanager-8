@@ -40,21 +40,21 @@ class Task extends Component {
     } else {
       this._hashtag.forEach(tagName => {
         const hashtagList = template.querySelector(`.card__hashtag-list`);
-        const span = document.createElement("span");
-        span.className = "card__hashtag-inner";
-        const input = document.createElement("input");
-        input.type = "hidden";
-        input.name = "hashtag";
-        input.value = "repeat";
-        input.className = "card__hashtag-hidden-input";
-        const button = document.createElement("button");
-        button.type = "button";
-        button.className = "card__hashtag-name";
+        const span = document.createElement(`span`);
+        span.className = `card__hashtag-inner`;
+        const input = document.createElement(`input`);
+        input.type = `hidden`;
+        input.name = `hashtag`;
+        input.value = `repeat`;
+        input.className = `card__hashtag-hidden-input`;
+        const button = document.createElement(`button`);
+        button.type = `button`;
+        button.className = `card__hashtag-name`;
         button.innerHTML = `#${tagName}`;
-        const buttonDelete = document.createElement("button");
-        buttonDelete.type = "button";
-        buttonDelete.className = "card__hashtag-delete";
-        buttonDelete.innerHTML = "delete";
+        const buttonDelete = document.createElement(`button`);
+        buttonDelete.type = `button`;
+        buttonDelete.className = `card__hashtag-delete`;
+        buttonDelete.innerHTML = `delete`;
 
         span.appendChild(input);
         span.appendChild(button);
@@ -63,16 +63,16 @@ class Task extends Component {
       });
     }
     const date = template.querySelector(`.card__date`);
-    date.value = moment(this._date).format("D MMMM");
+    date.value = moment(this._date).format(`D MMMM`);
     const time = template.querySelector(`.card__time`);
-    time.value = moment(this._date).format("h:mm");
+    time.value = moment(this._date).format(`h:mm`);
 
     if (!this._img) {
       template
         .querySelector(`.card__settings`)
         .removeChild(template.querySelector(`.card__img-wrap`));
     } else {
-      const image = template.querySelector(".card__img");
+      const image = template.querySelector(`.card__img`);
       image.src = this._img;
     }
     const container = document.createElement(`div`);

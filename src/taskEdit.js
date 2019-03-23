@@ -51,9 +51,11 @@ class TaskEdit extends Component {
   }
   _onSubmitButtonClick(event) {
     event.preventDefault();
-
+    console.log(this._element.querySelector(`.card__form`));
     const formData = new FormData(this._element.querySelector(`.card__form`));
+    console.log(formData);
     const newData = this._processForm(formData);
+    console.log({ newData });
     typeof this._onSubmit === `function` && this._onSubmit(newData);
 
     this.update(newData);
@@ -93,21 +95,21 @@ class TaskEdit extends Component {
 
     this._tags.forEach(tagName => {
       const hashtagList = template.querySelector(`.card__hashtag-list`);
-      const span = document.createElement("span");
-      span.className = "card__hashtag-inner";
-      const input = document.createElement("input");
-      input.type = "hidden";
-      input.name = "hashtag";
-      input.value = "repeat";
-      input.className = "card__hashtag-hidden-input";
-      const button = document.createElement("button");
-      button.type = "button";
-      button.className = "card__hashtag-name";
+      const span = document.createElement(`span`);
+      span.className = `card__hashtag-inner`;
+      const input = document.createElement(`input`);
+      input.type = `hidden`;
+      input.name = `hashtag`;
+      input.value = `repeat`;
+      input.className = `card__hashtag-hidden-input`;
+      const button = document.createElement(`button`);
+      button.type = `button`;
+      button.className = `card__hashtag-name`;
       button.innerHTML = `#${tagName}`;
-      const buttonDelete = document.createElement("button");
-      buttonDelete.type = "button";
-      buttonDelete.className = "card__hashtag-delete";
-      buttonDelete.innerHTML = "delete";
+      const buttonDelete = document.createElement(`button`);
+      buttonDelete.type = `button`;
+      buttonDelete.className = `card__hashtag-delete`;
+      buttonDelete.innerHTML = `delete`;
 
       span.appendChild(input);
       span.appendChild(button);
@@ -116,20 +118,20 @@ class TaskEdit extends Component {
     });
 
     const toggleDate = template.querySelector(`.card__date-status`);
-    toggleDate.innerHTML = this._state.isDate ? "YES" : "NO";
+    toggleDate.innerHTML = this._state.isDate ? `YES` : `NO`;
     template.querySelector(`.card__date-deadline`).disabled = !this._state
       .isDate;
     const toggleRepeatStatus = template.querySelector(`.card__repeat-status`);
-    toggleRepeatStatus.innerHTML = this._state.isRepeated ? "YES" : "NO";
+    toggleRepeatStatus.innerHTML = this._state.isRepeated ? `YES` : `NO`;
     template.querySelector(`.card__repeat-days`).disabled = !this._state
       .isRepeated;
 
     if (this._dueDate) {
-      toggleDate.innerHTML = "YES";
+      toggleDate.innerHTML = `YES`;
       const date = template.querySelector(`.card__date`);
-      date.value = moment(this._dueDate).format("D MMMM");
+      date.value = moment(this._dueDate).format(`D MMMM`);
       const time = template.querySelector(`.card__time`);
-      time.value = moment(this._dueDate).format("h:mm");
+      time.value = moment(this._dueDate).format(`h:mm`);
     }
 
     const container = document.createElement(`div`);
@@ -149,17 +151,17 @@ class TaskEdit extends Component {
       .addEventListener(`click`, this._onChangeRepeated);
 
     if (this._state.isDate) {
-      flatpickr(".card__date", {
+      flatpickr(`.card__date`, {
         altInput: true,
-        altFormat: "j F",
-        dateFormat: "j F"
+        altFormat: `j F`,
+        dateFormat: `j F`
       });
-      flatpickr(".card__time", {
+      flatpickr(`.card__time`, {
         enableTime: true,
         noCalendar: true,
         altInput: true,
-        altFormat: "h:i K",
-        dateFormat: "h:i K"
+        altFormat: `h:i K`,
+        dateFormat: `h:i K`
       });
     }
   }
